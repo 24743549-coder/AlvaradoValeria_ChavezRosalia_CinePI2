@@ -25,7 +25,8 @@ namespace AlvaradoCastillo_ChavezRosalia_CinePI1._1
                 Console.WriteLine("2. Reservar Asiento");
                 Console.WriteLine("3. Liberar Asiento");
                 Console.WriteLine("4. Consultar Disponibilidad");
-                Console.WriteLine("5. Salir");
+                Console.WriteLine("5. Ver Estadísticas de Ocupación");
+                Console.WriteLine("6. Salir");
                 Console.Write("\nEscoja una opción: ");
 
                 string opcion = Console.ReadLine();
@@ -52,7 +53,11 @@ namespace AlvaradoCastillo_ChavezRosalia_CinePI1._1
                         ConsultarDisponibilidad();
                         Pausar();
                         break;
-                    case "5":
+                    case "5": Console.Clear(); 
+                        MostrarEstadisticas(); 
+                        Pausar();
+                        break;
+                    case "6":
                         ejecutando = false;
                         Console.WriteLine("\n¡Saliendo del sistema!");
                         break;
@@ -161,7 +166,7 @@ namespace AlvaradoCastillo_ChavezRosalia_CinePI1._1
                 Console.WriteLine($"\nAviso: El asiento {entradaFila}{columna} ya estaba libre.");
             }
         }
-
+        // Consultar disponibilidad de un asiento específico
         static void ConsultarDisponibilidad()
         {
             Console.WriteLine("--- CONSULTAR DISPONIBILIDAD ---\n");
@@ -204,6 +209,36 @@ namespace AlvaradoCastillo_ChavezRosalia_CinePI1._1
                 case "E": return 4;
                 default: return -1; // Retorna -1 si escriben una letra no válida (ej: 'Z')
             }
+        }
+        // Mostrar estadísticas de ocupación de la sala
+        static void MostrarEstadisticas()
+        {
+            Console.WriteLine("--- ESTADÍSTICAS DE OCUPACIÓN ---\n");
+            int disponibles = 0;
+            int ocupados = 0;
+            int totalAsientos = SalaDeCine.GetLength(0) * SalaDeCine.GetLength(1); // 30
+
+            for (int f = 0; f < 5; f++)
+            {
+                for (int c = 0; c < 6; c++)
+                {
+                    if (SalaDeCine[f, c] == "[ X ]")
+                    {
+                        ocupados++;
+                    }
+                    else
+                    {
+                        disponibles++;
+                    }
+                }
+            }
+
+            double porcentajeOcupacion = ((double)ocupados / totalAsientos) * 100;
+
+            Console.WriteLine($"Total de asientos en sala: {totalAsientos}");
+            Console.WriteLine($"Asientos disponibles [ O ]: {disponibles}");
+            Console.WriteLine($"Asientos ocupados    [ X ]: {ocupados}");
+            Console.WriteLine($"Porcentaje de ocupación   : {porcentajeOcupacion:F2}%");
         }
 
         static void Pausar()
